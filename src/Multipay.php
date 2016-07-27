@@ -11,13 +11,13 @@ class Multipay
 
   /**
    * Constructor
-   * @param string $code 
+   * @param string $code
    * @param string $token
    */
   public function __construct($code = NULL, $token = NULL)
   {
     if(is_null($code) || is_null($token) ){
-      trigger_error('You must provide the given code and token.', E_USER_ERROR); 
+      trigger_error('You must provide the given code and token.', E_USER_ERROR);
     }
 
     if (!extension_loaded('curl')) {
@@ -39,7 +39,7 @@ class Multipay
 
     try {
         $ch = $this->initCurlHandler($this->timeout, 'POST');
-        curl_setopt($ch, CURLOPT_URL, 'http://api.multipay.ph/api/v1/inst/transaction');
+        curl_setopt($ch, CURLOPT_URL, 'http://institution.multipay.ph/api/v1/transactions/create');
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $return = json_decode(curl_exec($ch), true);
@@ -50,7 +50,7 @@ class Multipay
     return $return;
   }
 
-  
+
   /**
    * [initCurlHandler description]
    * @param  [type] $timeout [description]
