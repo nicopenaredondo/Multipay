@@ -41,7 +41,7 @@ class Multipay
         $ch = $this->initCurlHandler($this->timeout, 'POST');
         curl_setopt($ch, CURLOPT_URL, 'http://institution.multipay.ph/api/v1/transactions/create');
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, self::buildData($data));
         $return = json_decode(curl_exec($ch), true);
         curl_close($ch);
     } catch (Exception $e) {
@@ -71,5 +71,25 @@ class Multipay
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $mode);
     return $ch;
+  }
+
+  private function buildData($payload)
+  {
+      $data = array_merge($payload, [
+        'digest' => self::generateDigest($payload)
+      ]);
+      dd($data);
+      return $data;
+  }
+
+  private function generateDigest($payload)
+  {
+    $payload = array_merge($payload, [
+      'code' => $this->code,
+      'token' => $this->token
+    ]);
+
+    ksort($payload);
+    return sha1(implode(':', $payload));
   }
 }
