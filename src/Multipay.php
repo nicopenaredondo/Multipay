@@ -78,7 +78,6 @@ class Multipay
       $data = array_merge($payload, [
         'digest' => self::generateDigest($payload)
       ]);
-      dd($data);
       return $data;
   }
 
