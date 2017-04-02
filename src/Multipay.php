@@ -39,7 +39,7 @@ class Multipay
 
     try {
         $ch = $this->initCurlHandler($this->timeout, 'POST');
-        curl_setopt($ch, CURLOPT_URL, 'http://institution.multipay.ph/api/v1/transactions/create');
+        curl_setopt($ch, CURLOPT_URL, 'https://institution.multipay.ph/api/v1/transactions/create');
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, self::buildData($data));
         $return = json_decode(curl_exec($ch), true);
