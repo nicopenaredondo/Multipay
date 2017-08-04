@@ -50,6 +50,27 @@ class Multipay
     return $return;
   }
 
+  /**
+   * Generate a transaction w/ Link
+   * @param  [type] $data [description]
+   * @return [type]       [description]
+   */
+  public function generateLink($data)
+  {
+
+    try {
+        $ch = $this->initCurlHandler($this->timeout, 'POST');
+        curl_setopt($ch, CURLOPT_URL, 'https://institution.multipay.ph/api/v1/transactions/generate');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, self::buildData($data));
+        $return = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+    } catch (Exception $e) {
+        $return = null;
+    }
+    return $return;
+  }
+
 
   /**
    * [initCurlHandler description]
